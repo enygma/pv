@@ -33,13 +33,19 @@ Current Validators:
 =========================
 
 **String:**
-*length([min],[max]):* Check to be sure the string's length is between min/max
-*int:* Check to see if the string is an integer
-*numeric:* Check to see if the string is numeric
-*url:* See if the string validates as a URL
+
+- *length([min],[max]):* Check to be sure the string's length is between min/max
+
+- *int:* Check to see if the string is an integer
+
+- *numeric:* Check to see if the string is numeric
+
+- *url:* See if the string validates as a URL
 
 **Array:**
-*length([min],[max]):* Check to be sure an array's length is between the min/max
+
+- *length([min],[max]):* Check to be sure an array's length is between the min/max
 
 **Object:**
-*hasproperty([name]):* Check to see if object has a property
+
+- *hasproperty([name]):* Check to see if object has a property
