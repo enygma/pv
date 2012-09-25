@@ -12,6 +12,17 @@ abstract class Variable
         $this->value = $value;
         $type = ($type == null) ? 'none' : $type;
 
+        $this->setupValidation($type);
+    }
+
+    /**
+     * Set up the validation objects for the variable
+     * 
+     * @param mixed $type Either string/array of validation options
+     * @return null
+     */
+    private function setupValidation($type)
+    {
         if (!is_array($type)) {
             $type = array($type);
         }
@@ -24,7 +35,7 @@ abstract class Variable
                 $addlParams = explode(',',$params[2]);
             }
             $validation  = "\Pv\Validate\\".ucwords(strtolower($t));
-            $valid = new $validation($value);
+            $valid = new $validation($this->value);
             if (!empty($addlParams)) {
                 $valid->setParams($addlParams);
             }
@@ -32,6 +43,11 @@ abstract class Variable
         }
     }
 
+    /**
+     * Execute the validation on the variable's current value
+     * 
+     * @return boolean $pass Pass/fail result from validation
+     */
     public function validate()
     {
         $pass = true;
@@ -47,17 +63,44 @@ abstract class Variable
         return $pass;
     }
 
+    /**
+     * Get the current variable's value
+     * 
+     * @return mixed Variable value
+     */
     public function getValue()
     {
         return $this->value;
     }
+
+    /**
+     * Set the value for the variable
+     * 
+     * @param mixed $value Variable value
+     */
     public function setValue($value)
     {
         return $this->value = $value;
     }
+
+    /**
+     * Return the current set of validation methods
+     * 
+     * @return array Set of validation objects
+     */
     public function getValidation()
     {
         return $this->validate;
+    }
+
+    /**
+     * Add additional validation options to the variable
+     * 
+     * @param mixed $types Either a string/array of types to add & options
+     */
+    public function addValidation($types)
+    {
+        $this->setupValidation($types);
     }
 }
 
