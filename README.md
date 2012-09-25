@@ -26,6 +26,14 @@ $obj->foo = 'bar';
 $s2 = new Pv\PObject($obj,array('hasproperty[foo]'));
 
 echo 'RESULT: '; var_dump($s2->validate()); echo "\n\n"; // true
+
+## Adding more validation
+$str = '12345678901';
+$s = new Pv\PString($str,array('length[1,10]'));
+$s->addValidation('numeric');
+
+// since our string is numeric but is longer than 10 characters
+echo 'RESULT: '; var_dump($s->validate()); echo "\n\n"; // false
 ?>
 ```
 
@@ -54,5 +62,7 @@ Current Validators:
 
 - *instance([class name]):* Check to see if object is an instance of the class name
 
+
 @author Chris Cornutt <ccornutt@phpdveloper.org>
+
 @license MIT
