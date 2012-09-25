@@ -41,6 +41,8 @@ Current Validators:
 - *numeric:* Check to see if the string is numeric
 
 - *url:* See if the string validates as a URL
+ 
+- *range([min],[max]):* Checks to see if the value is in a given range
 
 **Array:**
 
@@ -49,3 +51,8 @@ Current Validators:
 **Object:**
 
 - *hasproperty([name]):* Check to see if object has a property
+
+- *instance([class name]):* Check to see if object is an instance of the class name
+
+@author Chris Cornutt <ccornutt@phpdveloper.org>
+@license MIT
