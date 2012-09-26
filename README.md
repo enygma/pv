@@ -62,6 +62,9 @@ Current Validators:
 
 - *instance([class name]):* Check to see if object is an instance of the class name
 
+**Boolean:**
+
+- None
 
 @author Chris Cornutt <ccornutt@phpdveloper.org>
 
