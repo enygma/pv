@@ -1,5 +1,7 @@
 pv: simple PHP validation
 
+[![Build Status](https://secure.travis-ci.org/enygma/pv.png?branch=master)](http://travis-ci.org/enygma/pv)
+
 Example usage:
 =======================
 
