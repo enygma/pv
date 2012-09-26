@@ -1,0 +1,23 @@
+{
+    "name":"pv/pv",
+    "type":"library",
+    "description":"pv : php validation",
+    "keywords":["validation", "variable", "type"],
+    "homepage":"https://github.com/enygma/pv.git",
+    "license":"MIT",
+    "authors":[
+        {
+            "name":"Chris Cornutt",
+            "email":"ccornutt@phpdeveloper.org",
+            "homepage":"http://www.phpdeveloper.org/"
+        }
+    ],
+    "require":{
+        "php":">=5.3.1"
+    },
+    "autoload":{
+        "psr-0":{
+            "Pv":"Pv/"
+        }
+    }
+}
