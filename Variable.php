@@ -56,6 +56,7 @@ abstract class Variable
             if ($ret == false) {
                 $this->validate[$index]->fail();
                 $pass = false;
+                throw new ValidationException('Failure on validation '.get_class($validate));
             } else {
                 $this->validate[$index]->pass();
             }
