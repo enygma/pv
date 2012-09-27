@@ -9,7 +9,7 @@ class PArray extends Variable implements \ArrayAccess, \Iterator, \Countable
     public function __construct($value,$type=null)
     {
         if (!is_array($value)) {
-            throw new \Exception('Variable type mismatch, expected array');
+            throw new ValidationException('Variable type mismatch, expected array');
         }
         parent::__construct($value,$type);
     }

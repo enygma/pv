@@ -43,8 +43,14 @@ echo 'RESULT: '; var_dump($s->validate()); echo "\n\n"; // false
 ?>
 ```
 
-Catching Validation Exceptions:
+Catching Exceptions:
 =========================
+
+## Creation
+When you create a new object, if the data given doesn't match the type for the object,
+you'll be thrown a `ValidationException`.
+
+## Validation
 
 When the `validate()` call fails, you'll be thrown an exception, a `ValidationException`.
 You can catch this just like any other exception and find out what validation failed:
