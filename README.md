@@ -39,6 +39,25 @@ echo 'RESULT: '; var_dump($s->validate()); echo "\n\n"; // false
 ?>
 ```
 
+Catching Validation Exceptions:
+=========================
+
+When the `validate()` call fails, you'll be thrown an exception, a `ValidationException`.
+You can catch this just like any other exception and find out what validation failed:
+
+```php
+<?php
+
+try {
+    $s2->validate();
+} catch(\Exception $e) {
+    echo 'ERROR: '.$e->getMessage();
+    // Output: "Failure on validation Pv\Validate\Length"
+}
+
+?>
+```
+
 Current Validators:
 =========================
 
