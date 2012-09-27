@@ -30,7 +30,7 @@ $s2 = new Pv\PObject($obj,array('hasproperty[foo]'));
 echo 'RESULT: '; var_dump($s2->validate()); echo "\n\n"; // true
 
 ### Boolean example
-$s3 = new Pv\Boolean(true);
+$s3 = new Pv\PBoolean(true);
 
 ## Adding more validation
 $str = '12345678901';
