@@ -51,7 +51,11 @@ abstract class Variable
             if ($negate == true) {
                 $valid->negate();
             }
-            $this->validate[$index] = $valid;
+
+            // get the current validation and append
+            $currentValidation = $this->getValidation();
+            $newValidation = array_merge($currentValidation,array($valid));
+            $this->validate = $newValidation;
         }
     }
 
