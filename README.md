@@ -43,6 +43,20 @@ echo 'RESULT: '; var_dump($s->validate()); echo "\n\n"; // false
 ?>
 ```
 
+Negation:
+=========================
+
+You can negate any check by adding a "not:" before it. For example:
+
+```
+<?php
+$str = '12345678901';
+$s = new Pv\PString($str,array('not:length[1,10]'));
+?>
+```
+
+The above returns `true` because the string of numbers is longer than 10 characters.
+
 Catching Exceptions:
 =========================
 

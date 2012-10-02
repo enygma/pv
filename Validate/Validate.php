@@ -7,6 +7,7 @@ abstract class Validate
     protected $value  = null;
     protected $params = null;
     protected $status = true;
+    protected $negate = false;
 
     public function __construct($value)
     {
@@ -39,6 +40,20 @@ abstract class Validate
     public function pass()
     {
         $this->status = true;
+    }
+
+    /**
+     * Negate the check (a "not")
+     * 
+     * @return null
+     */
+    public function negate()
+    {
+        $this->negate = true;
+    }
+    public function isNegated()
+    {
+        return ($this->negate == true) ? true : false;
     }
 
     public function run(){}

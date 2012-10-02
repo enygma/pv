@@ -6,6 +6,7 @@ abstract class Variable
 {
     protected $validate = array();
     protected $value    = null;
+    protected $negate   = false;
 
     public function __construct($value,$type=null)
     {
@@ -27,6 +28,14 @@ abstract class Variable
             $type = array($type);
         }
         foreach ($type as $t) {
+            $negate = false;
+
+            // see if we have a "not:" to negate
+            if (strpos($t, 'not:') !== false) {
+                $t = str_replace('not:','',$t);
+                $negate = true;
+            }
+
             // see if we have parameters to pass
             $addlParams = array();
             if (strpos($t, '[') !== false) {
@@ -38,6 +47,9 @@ abstract class Variable
             $valid = new $validation($this->value);
             if (!empty($addlParams)) {
                 $valid->setParams($addlParams);
+            }
+            if ($negate == true) {
+                $valid->negate();
             }
             $this->validate[] = $valid;
         }
@@ -52,8 +64,15 @@ abstract class Variable
     {
         $pass = true;
         foreach ($this->validate as $index => $validate) {
-            $ret = $validate->run();
-            if ($ret == false) {
+            $ret   = $validate->run();
+            $check = false;
+
+            // see if we need to negate the check
+            if ($validate->isNegated() == true) {
+                $check = true;
+            }
+
+            if ($ret == $check) {
                 $this->validate[$index]->fail();
                 $pass = false;
                 throw new ValidationException('Failure on validation '.get_class($validate));
