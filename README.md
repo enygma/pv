@@ -48,7 +48,7 @@ Negation:
 
 You can negate any check by adding a "not:" before it. For example:
 
-```
+```php
 <?php
 $str = '12345678901';
 $s = new Pv\PString($str,array('not:length[1,10]'));
@@ -62,7 +62,7 @@ Naming Validators:
 
 When you assign your validation, you can give them unique naming for reference later:
 
-```
+```php
 <?php
 $str = '12345678901';
 $s = new Pv\PString($str,array(
@@ -76,7 +76,7 @@ $s->addValidation('not:length[1,10]','validate1');
 
 You can also remove them with the same name:
 
-```
+```php
 <?php
 $str = '12345678901';
 $s = new Pv\PString($str,array(
