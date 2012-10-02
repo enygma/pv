@@ -57,6 +57,36 @@ $s = new Pv\PString($str,array('not:length[1,10]'));
 
 The above returns `true` because the string of numbers is longer than 10 characters.
 
+Naming Validators:
+=========================
+
+When you assign your validation, you can give them unique naming for reference later:
+
+```
+<?php
+$str = '12345678901';
+$s = new Pv\PString($str,array(
+    'validate1' => 'not:length[1,10]'
+));
+
+// or you can set it with addValidate
+$s->addValidation('not:length[1,10]','validate1');
+?>
+```
+
+You can also remove them with the same name:
+
+```
+<?php
+$str = '12345678901';
+$s = new Pv\PString($str,array(
+    'validate1' => 'not:length[1,10]'
+));
+$s->removeValidation('validate1');
+// you can also just use a numeric index here too
+?>
+```
+
 Catching Exceptions:
 =========================
 

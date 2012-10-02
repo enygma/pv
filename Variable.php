@@ -27,7 +27,7 @@ abstract class Variable
         if (!is_array($type)) {
             $type = array($type);
         }
-        foreach ($type as $t) {
+        foreach ($type as $index => $t) {
             $negate = false;
 
             // see if we have a "not:" to negate
@@ -51,7 +51,7 @@ abstract class Variable
             if ($negate == true) {
                 $valid->negate();
             }
-            $this->validate[] = $valid;
+            $this->validate[$index] = $valid;
         }
     }
 
@@ -75,7 +75,11 @@ abstract class Variable
             if ($ret == $check) {
                 $this->validate[$index]->fail();
                 $pass = false;
-                throw new ValidationException('Failure on validation '.get_class($validate));
+                $msg = 'Failure on validation '.get_class($validate);
+                if ($validate->isNegated()) {
+                    $msg .= ' (negated)';
+                }
+                throw new ValidationException($msg);
             } else {
                 $this->validate[$index]->pass();
             }
@@ -118,9 +122,29 @@ abstract class Variable
      * 
      * @param mixed $types Either a string/array of types to add & options
      */
-    public function addValidation($types)
+    public function addValidation($types, $name=null)
     {
+        if (!is_array($types)) {
+            $types = ($name !== null)
+                ? array($name => $types) : array($types);
+        }
         $this->setupValidation($types);
+    }
+
+    /**
+     * Remove validation from an object
+     * 
+     * @param mixed $index Integer/string key for the validation to remove
+     * @return boolean Pass/fail on removal
+     */
+    public function removeValidation($index)
+    {
+        if (isset($this->validate[$index])) {
+            unset($this->validate[$index]);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
