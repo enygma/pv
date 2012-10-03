@@ -141,6 +141,6 @@ Current Validators:
 
 - None
 
-@author Chris Cornutt <ccornutt@phpdveloper.org>
+@author Chris Cornutt <ccornutt@phpdeveloper.org>
 
 @license MIT
