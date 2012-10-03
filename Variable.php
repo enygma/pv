@@ -54,7 +54,7 @@ abstract class Variable
 
             // get the current validation and append
             $currentValidation = $this->getValidation();
-            $newValidation = array_merge($currentValidation,array($valid));
+            $newValidation = array_merge($currentValidation,array($index => $valid));
             $this->validate = $newValidation;
         }
     }
