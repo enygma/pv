@@ -13,7 +13,7 @@ class VariableTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($value,$init);
     }
-    
+
     /**
      * Test that the vailidation instances are correctly setup
      */
@@ -24,6 +24,16 @@ class VariableTest extends PHPUnit_Framework_TestCase
         $valid = $str->getValidation();
 
         $this->assertTrue($valid[0] instanceof \Pv\Validate\Length);
+    }
+
+    /**
+     * Test that, when no validation is given, the object gets a "None" type
+     */
+    public function testNoValidationIsNone()
+    {
+        $str = new \Pv\PString('test');
+        $valid = $str->getValidation();
+        $this->assertTrue($valid[0] instanceof \Pv\Validate\None);
     }
 
     /**
