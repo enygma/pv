@@ -2,22 +2,14 @@
 
 class PStringTest extends PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    /**
+     * Test that an exception is thrown when value is non-string
+     * @expectedException \Pv\ValidationException
+     */
+    public function testValueIsCorrect()
     {
-
-    }
-    public function tearDown()
-    {
-
-    }
-
-    public function testValueIsSet()
-    {
-        $init  = 'test';
+        $init  = true;
         $str   = new \Pv\PString($init);
-        $value = $str->getValue();
-
-        $this->assertEquals($value,$init);
     }
 }
 
