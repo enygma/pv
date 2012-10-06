@@ -141,7 +141,7 @@ Current Validators:
 
 **String:**
 
-- *length([min],[max]):* Check to be sure the string's length is between min/max
+- *length[<min>,<max>]:* Check to be sure the string's length is between min/max
 
 - *int:* Check to see if the string is an integer
 
@@ -149,21 +149,21 @@ Current Validators:
 
 - *url:* See if the string validates as a URL
  
-- *range([min],[max]):* Checks to see if the value is in a given range
+- *range[<min>,<max>]:* Checks to see if the value is in a given range
 
-- *contains([find]):* "Find" is a substring in the value
+- *contains[<find>]:* "Find" is a substring in the value
 
 **Array:**
 
-- *length([min],[max]):* Check to be sure an array's length is between the min/max
+- *length[<min>,<max>]:* Check to be sure an array's length is between the min/max
 
-- *contains([find]):* "Find" is a value in the array
+- *contains[<find>]:* "Find" is a value in the array
 
 **Object:**
 
-- *hasproperty([name]):* Check to see if object has a property
+- *hasproperty[<name>]:* Check to see if object has a property
 
-- *instance([class name]):* Check to see if object is an instance of the class name
+- *instance[<class name>]:* Check to see if object is an instance of the class name
 
 **Boolean:**
 
@@ -171,7 +171,7 @@ Current Validators:
 
 **Date:**
 
-- None
+- *between[<start,end>]:* Check to see if the date is between the start/end dates
 
 @author Chris Cornutt <ccornutt@phpdeveloper.org>
 
