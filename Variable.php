@@ -64,31 +64,51 @@ abstract class Variable
      * 
      * @return boolean $pass Pass/fail result from validation
      */
-    public function validate()
+    public function validate($index=null)
     {
         $pass = true;
-        foreach ($this->validate as $index => $validate) {
-            $ret   = $validate->run();
-            $check = false;
 
-            // see if we need to negate the check
-            if ($validate->isNegated() == true) {
-                $check = true;
-            }
-
-            if ($ret == $check) {
-                $this->validate[$index]->fail();
-                $pass = false;
-                $msg = 'Failure on validation '.get_class($validate);
-                if ($validate->isNegated()) {
-                    $msg .= ' (negated)';
-                }
-                throw new ValidationException($msg);
-            } else {
-                $this->validate[$index]->pass();
+        // see if we're just trying to run one validator
+        if ($index !== null && isset($this->validate[$index])) {
+            $this->execValidation($this->validate[$index], $index);
+        } else {
+            foreach ($this->validate as $index => $validate) {
+                $this->execValidation($validate, $index);
             }
         }
         return $pass;
+    }
+
+    /**
+     * Execute the validator
+     * 
+     * @param  \Pv\Validate\Validate $validate Validator object
+     * @param  string                $index    Validator index (in validation set)
+     * @throws Exception Validation failure
+     * 
+     * @return null
+     */
+    public function execValidation(\Pv\Validate\Validate $validate, $index)
+    {
+        $ret   = $validate->run();
+        $check = false;
+
+        // see if we need to negate the check
+        if ($validate->isNegated() == true) {
+            $check = true;
+        }
+
+        if ($ret == $check) {
+            $this->validate[$index]->fail();
+            $pass = false;
+            $msg = 'Failure on validation '.get_class($validate);
+            if ($validate->isNegated()) {
+                $msg .= ' (negated)';
+            }
+            throw new ValidationException($msg);
+        } else {
+            $this->validate[$index]->pass();
+        }
     }
 
     /**

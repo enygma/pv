@@ -10,14 +10,14 @@ Example usage:
 
 ### String example
 $str = '12345678901';
-$s = new Pv\PString($str,array('length[1,10]','numeric'));
+$s = new Pv\PString($str, array('length[1,10]','numeric'));
 
 // since our string is numeric but is longer than 10 characters
 echo 'RESULT: '; var_dump($s->validate()); echo "\n\n"; // false
 
 ### Array example
 $str = array('test' => 'foo');
-$s1 = new Pv\PArray($str,array('length[1]'));
+$s1 = new Pv\PArray($str, array('length[1]'));
 
 echo 'RESULT: '; var_dump($s1->validate()); echo "\n\n"; // true
 
@@ -25,7 +25,7 @@ echo 'RESULT: '; var_dump($s1->validate()); echo "\n\n"; // true
 $obj = new stdClass();
 $obj->foo = 'bar';
 
-$s2 = new Pv\PObject($obj,array('hasproperty[foo]'));
+$s2 = new Pv\PObject($obj, array('hasproperty[foo]'));
 
 echo 'RESULT: '; var_dump($s2->validate()); echo "\n\n"; // true
 
@@ -51,7 +51,7 @@ You can negate any check by adding a "not:" before it. For example:
 ```php
 <?php
 $str = '12345678901';
-$s = new Pv\PString($str,array('not:length[1,10]'));
+$s = new Pv\PString($str, array('not:length[1,10]'));
 ?>
 ```
 
@@ -65,7 +65,7 @@ When you assign your validation, you can give them unique naming for reference l
 ```php
 <?php
 $str = '12345678901';
-$s = new Pv\PString($str,array(
+$s = new Pv\PString($str, array(
     'validate1' => 'not:length[1,10]'
 ));
 
@@ -79,11 +79,35 @@ You can also remove them with the same name:
 ```php
 <?php
 $str = '12345678901';
-$s = new Pv\PString($str,array(
+$s = new Pv\PString($str, array(
     'validate1' => 'not:length[1,10]'
 ));
 $s->removeValidation('validate1');
 // you can also just use a numeric index here too
+?>
+```
+
+Executing Certain Validators
+=========================
+
+If there's more than one validator on an object, you have the choice of executing all
+of the validators (default behavior), or you can execute a single validator:
+
+```php
+<?php
+$str = '12345';
+$s = new Pv\PString($str, array('length[10,12]', 'numeric'));
+
+var_export($s->validate(0)); // fails
+var_export($s->validate(1)); // passes
+?>
+```
+
+This also works with named validators as well:
+
+```php
+<?php
+var_export($s->validate('validate1'));
 ?>
 ```
 

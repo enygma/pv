@@ -76,6 +76,30 @@ class VariableTest extends PHPUnit_Framework_TestCase
         $valid = $str->getValidation();
         $this->assertTrue(isset($valid['test1']));
     }
+
+    /**
+     * Execute only one validator from the two given, one that passes
+     */
+    public function testExecuteSingleValidatorPass()
+    {
+        $init = '123456789';
+        $str   = new \Pv\PString($init, array('numeric','length[0,5]'));
+
+        $result = $str->validate(0);
+        $this->assertTrue($result);
+    }
+
+    /**
+     * Execute only one validator from the two given, one that fails
+     * @expectedException \Pv\ValidationException
+     */
+    public function testExecuteSingleValidatorFail()
+    {
+        $init = '123456789';
+        $str   = new \Pv\PString($init, array('numeric','length[0,5]'));
+
+        $result = $str->validate(1);
+    }
 }
 
 ?>
