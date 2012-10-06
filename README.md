@@ -151,9 +151,13 @@ Current Validators:
  
 - *range([min],[max]):* Checks to see if the value is in a given range
 
+- *contains([find]):* "Find" is a substring in the value
+
 **Array:**
 
 - *length([min],[max]):* Check to be sure an array's length is between the min/max
+
+- *contains([find]):* "Find" is a value in the array
 
 **Object:**
 
@@ -162,6 +166,10 @@ Current Validators:
 - *instance([class name]):* Check to see if object is an instance of the class name
 
 **Boolean:**
+
+- None
+
+**Date:**
 
 - None
 
