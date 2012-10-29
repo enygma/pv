@@ -136,6 +136,25 @@ try {
 ?>
 ```
 
+Converting between types:
+=========================
+
+The objects allow you to convert between types easily. PHP does native type jugging, but
+the results can sometimes be unpredictable. Each object has methods to convert to the 
+other types. Here's an example:
+
+```php
+<?php
+
+$init = true;
+$bool = new \Pv\PBoolean($init);
+$ret  = $bool->convert('string');
+
+var_export($ret); // outputs the string "true"
+
+?>
+```
+
 Current Validators:
 =========================
 
