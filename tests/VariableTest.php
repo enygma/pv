@@ -100,6 +100,18 @@ class VariableTest extends PHPUnit_Framework_TestCase
 
         $result = $str->validate(1);
     }
+
+    /**
+     * Test that a conversion to an invalid type fails
+     * @expectedException \Pv\ConversionException
+     */
+    public function testConvertInvalidType()
+    {
+        $init = true;
+        $bool = new \Pv\PBoolean($init);
+
+        $bool->convert('foo');
+    }
 }
 
 ?>

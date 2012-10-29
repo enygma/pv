@@ -170,6 +170,34 @@ abstract class Variable
             return false;
         }
     }
+
+    /**
+     * Convert the object to the given type
+     * 
+     * @param string $type Type to convert to
+     * @return an object of the new type
+     */
+    public function convert($type)
+    {
+        // see if we have an object of that type
+        $toType = ucwords(strtolower($type));
+        $file   = __DIR__.'/P'.$type.'.php';
+
+        if (is_file($file)) {
+            // see if we have the conversion method
+            $method = 'to'.ucwords(strtolower($type));
+            if (method_exists($this, $method)) {
+                // try to make an object
+                $objectType = '\Pv\P'.$type;
+                $obj = new $objectType($this->$method());
+                return $obj;
+            } else {
+                throw new \Pv\ConversionException('Cannot convert to type "'.$type.'"');
+            }
+        } else {
+            throw new \Pv\ConversionException('Invalid conversion type "'.$type.'"');
+        }
+    }
 }
 
 ?>

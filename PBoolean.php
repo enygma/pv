@@ -11,6 +11,16 @@ class PBoolean extends Variable
         }
         parent::__construct($value,$type);
     }
+
+    /**
+     * Convert the value to a string
+     * 
+     * @return string String value of the boolean
+     */
+    public function toString()
+    {
+        return ($this->value == true) ? 'true' : 'false';
+    }
 }
 
 ?>
