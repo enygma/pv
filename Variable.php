@@ -45,26 +45,31 @@ abstract class Variable
         foreach ($type as $index => $t) {
             $negate = false;
 
-            // see if we have a "not:" to negate
-            if (strpos($t, 'not:') !== false) {
-                $t = str_replace('not:', '', $t);
-                $negate = true;
-            }
+            if ($t instanceof \Closure) {
+                $valid = $t($this->value);
 
-            // see if we have parameters to pass
-            $addlParams = array();
-            if (strpos($t, '[') !== false) {
-                preg_match('#(.+?)\[(.+?)\]#', $t, $params);
-                $t = $params[1];
-                $addlParams = explode(',', $params[2]);
-            }
-            $validation  = "\Pv\Validate\\".ucwords(strtolower($t));
-            $valid = new $validation($this->value);
-            if (!empty($addlParams)) {
-                $valid->setParams($addlParams);
-            }
-            if ($negate == true) {
-                $valid->negate();
+            } else {
+                // see if we have a "not:" to negate
+                if (strpos($t, 'not:') !== false) {
+                    $t = str_replace('not:', '', $t);
+                    $negate = true;
+                }
+
+                // see if we have parameters to pass
+                $addlParams = array();
+                if (strpos($t, '[') !== false) {
+                    preg_match('#(.+?)\[(.+?)\]#', $t, $params);
+                    $t = $params[1];
+                    $addlParams = explode(',', $params[2]);
+                }
+                $validation  = "\Pv\Validate\\".ucwords(strtolower($t));
+                $valid = new $validation($this->value);
+                if (!empty($addlParams)) {
+                    $valid->setParams($addlParams);
+                }
+                if ($negate == true) {
+                    $valid->negate();
+                }    
             }
 
             // get the current validation and append
@@ -102,26 +107,41 @@ abstract class Variable
     /**
      * Execute the validator
      * 
-     * @param \Pv\Validate\Validate $validate Validator object
-     * @param string                $index    Validator index (in validation set)
+     * @param object $validate Validator object (either \Pv\Validate\Validate or a \Closure)
+     * @param string $index    Validator index (in validation set)
      * 
      * @throws Exception Validation failure
      * 
      * @return null
      */
-    public function execValidation(\Pv\Validate\Validate $validate, $index)
+    public function execValidation($validate, $index)
+    {
+        if (is_bool($validate)) {
+            $this->execValidatorClosure($validate, $index);
+        } else {
+            $this->execValidatorObject($validate, $index);
+        }
+    }
+
+    /**
+     * Validate a normal \Pv\Validate\Validate object
+     * 
+     * @param \Pv\Validate\Validate $validate Validation object
+     * @param mixed $index Index of the validator
+     * 
+     * @return null
+     */
+    private function execValidatorObject($validate, $index)
     {
         $ret   = $validate->run();
         $check = false;
-
-        // see if we need to negate the check
         if ($validate->isNegated() == true) {
             $check = true;
         }
 
         if ($ret == $check) {
-            $this->validate[$index]->fail();
             $pass = false;
+            $this->validate[$index]->fail();
             $msg = 'Failure on validation '.get_class($validate);
             if ($validate->isNegated()) {
                 $msg .= ' (negated)';
@@ -129,6 +149,23 @@ abstract class Variable
             throw new ValidationException($msg);
         } else {
             $this->validate[$index]->pass();
+        }
+    }
+
+    /**
+     * Execute a validation closure
+     * 
+     * @param boolean $validate Result of validation closure execution
+     * @param mixed   $index    Index of the validator in the set
+     * 
+     * @return null
+     */
+    private function execValidatorClosure($validate, $index)
+    {
+        if ($validate == false) {
+            throw new ValidationException(
+                'Failure on validation Closure at index '.$index
+            );
         }
     }
 

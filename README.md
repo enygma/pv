@@ -111,6 +111,21 @@ var_export($s->validate('validate1'));
 ?>
 ```
 
+Validation with Closures:
+=========================
+
+You can also specify a closure to that returns either a `true` or `false` value to allow
+for custom validation:
+
+```php
+<?php
+$str = '12345678';
+$s = new \Pv\PString($str);
+
+var_export( $s->addValidation(function($value) { return false; }) );
+?>
+```
+
 Catching Exceptions:
 =========================
 
