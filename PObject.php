@@ -11,6 +11,15 @@ class PObject extends Variable
         }
         parent::__construct($value,$type);
     }
+
+    /**
+     * Return a serialized version of the object
+     * @return string
+     */
+    public function toString()
+    {
+        return serialize($this->value);
+    }
 }
 
 ?>

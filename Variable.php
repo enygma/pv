@@ -4,8 +4,22 @@ namespace Pv;
 
 abstract class Variable
 {
+    /**
+     * Object validation methods
+     * @var array
+     */
     protected $validate = array();
+
+    /**
+     * Object's current value
+     * @var mixed
+     */
     protected $value    = null;
+
+    /**
+     * Negate the evaluation or not
+     * @var boolean
+     */
     protected $negate   = false;
 
     public function __construct($value,$type=null)
@@ -20,6 +34,7 @@ abstract class Variable
      * Set up the validation objects for the variable
      * 
      * @param mixed $type Either string/array of validation options
+     * 
      * @return null
      */
     private function setupValidation($type)
@@ -32,16 +47,16 @@ abstract class Variable
 
             // see if we have a "not:" to negate
             if (strpos($t, 'not:') !== false) {
-                $t = str_replace('not:','',$t);
+                $t = str_replace('not:', '', $t);
                 $negate = true;
             }
 
             // see if we have parameters to pass
             $addlParams = array();
             if (strpos($t, '[') !== false) {
-                preg_match('#(.+?)\[(.+?)\]#',$t,$params);
+                preg_match('#(.+?)\[(.+?)\]#', $t, $params);
                 $t = $params[1];
-                $addlParams = explode(',',$params[2]);
+                $addlParams = explode(',', $params[2]);
             }
             $validation  = "\Pv\Validate\\".ucwords(strtolower($t));
             $valid = new $validation($this->value);
@@ -54,13 +69,18 @@ abstract class Variable
 
             // get the current validation and append
             $currentValidation = $this->getValidation();
-            $newValidation = array_merge($currentValidation,array($index => $valid));
+            $newValidation = array_merge(
+                $currentValidation, 
+                array($index => $valid)
+            );
             $this->validate = $newValidation;
         }
     }
 
     /**
      * Execute the validation on the variable's current value
+     * 
+     * @param mixed $index Eithe name or ID of validtor to execute
      * 
      * @return boolean $pass Pass/fail result from validation
      */
@@ -82,8 +102,9 @@ abstract class Variable
     /**
      * Execute the validator
      * 
-     * @param  \Pv\Validate\Validate $validate Validator object
-     * @param  string                $index    Validator index (in validation set)
+     * @param \Pv\Validate\Validate $validate Validator object
+     * @param string                $index    Validator index (in validation set)
+     * 
      * @throws Exception Validation failure
      * 
      * @return null
@@ -125,6 +146,8 @@ abstract class Variable
      * Set the value for the variable
      * 
      * @param mixed $value Variable value
+     * 
+     * @return boolean If value was set correctly
      */
     public function setValue($value)
     {
@@ -144,7 +167,10 @@ abstract class Variable
     /**
      * Add additional validation options to the variable
      * 
-     * @param mixed $types Either a string/array of types to add & options
+     * @param mixed  $types Either a string/array of types to add & options
+     * @param string $name  Optional name for the validator
+     * 
+     * @return null;
      */
     public function addValidation($types, $name=null)
     {
@@ -159,6 +185,7 @@ abstract class Variable
      * Remove validation from an object
      * 
      * @param mixed $index Integer/string key for the validation to remove
+     * 
      * @return boolean Pass/fail on removal
      */
     public function removeValidation($index)
@@ -175,6 +202,7 @@ abstract class Variable
      * Convert the object to the given type
      * 
      * @param string $type Type to convert to
+     * 
      * @return an object of the new type
      */
     public function convert($type)
@@ -192,7 +220,9 @@ abstract class Variable
                 $obj = new $objectType($this->$method());
                 return $obj;
             } else {
-                throw new \Pv\ConversionException('Cannot convert to type "'.$type.'"');
+                throw new \Pv\ConversionException(
+                    'Cannot convert to type "'.$type.'"'
+                );
             }
         } else {
             throw new \Pv\ConversionException('Invalid conversion type "'.$type.'"');

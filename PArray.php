@@ -4,8 +4,18 @@ namespace Pv;
 
 class PArray extends Variable implements \ArrayAccess, \Iterator, \Countable
 {
+    /**
+     * Current array index
+     * @var integer
+     */
     private $index = 0;
 
+    /**
+     * Initialize the object - check to ensure it's an array value
+     * 
+     * @param array $value Value to assign
+     * @param array $type  Validation for the object
+     */
     public function __construct($value,$type=null)
     {
         if (!is_array($value)) {
