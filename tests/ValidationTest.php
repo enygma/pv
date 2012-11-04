@@ -4,6 +4,8 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Validate that the value is correctly set
+     * 
+     * @return null
      */
     public function testValueIsSet()
     {
@@ -15,6 +17,8 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test that the params for the object are correctly set
+     * 
+     * @return null
      */
     public function testParamsAreSet()
     {
@@ -28,6 +32,8 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test that the default value is returned when the param doesn't exist
+     * 
+     * @return null
      */
     public function testParamReturnsDefault()
     {
