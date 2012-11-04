@@ -18,7 +18,7 @@ class PObject extends Variable
      */
     public function toString()
     {
-        return new \Pv\PString($this->value);
+        return $this->value;
     }
 }
 

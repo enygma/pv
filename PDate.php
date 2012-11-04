@@ -21,7 +21,7 @@ class PDate extends Variable
      */
     public function toString()
     {
-        return new \Pv\PString($this->value);
+        return date('r', $this->value);
     }
 }
 

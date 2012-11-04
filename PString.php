@@ -18,7 +18,7 @@ class PString extends Variable
      */
     public function toDate()
     {
-        return new \Pv\PDate($this->value);
+        return date('r', $this->value);
     }
 
     /**
@@ -27,7 +27,7 @@ class PString extends Variable
      */
     public function toArray()
     {
-        return new \Pv\PArray($this->value);
+        return array($this->value);
     }
 
     /**
@@ -44,7 +44,7 @@ class PString extends Variable
         if ($this->value == 'false') {
             $return = false;
         }
-        return new \Pv\PBoolean($return);
+        return $return;
     }
 
     /**
@@ -53,7 +53,9 @@ class PString extends Variable
      */
     public function toObject()
     {
-        return new \Pv\PObject($this->value);
+        $obj = new \stdClass();
+        $obj->value = $this->value;
+        return $obj;
     }
 }
 
