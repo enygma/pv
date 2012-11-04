@@ -13,12 +13,12 @@ class PObject extends Variable
     }
 
     /**
-     * Return a serialized version of the object
-     * @return string
+     * Return a string object
+     * @return \Pv\PString
      */
     public function toString()
     {
-        return serialize($this->value);
+        return new \Pv\PString($this->value);
     }
 }
 

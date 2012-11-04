@@ -19,7 +19,8 @@ class PBoolean extends Variable
      */
     public function toString()
     {
-        return ($this->value == true) ? 'true' : 'false';
+        $value = ($this->value == true) ? 'true' : 'false';
+        return new \Pv\PString($value);
     }
 }
 
