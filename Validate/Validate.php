@@ -29,6 +29,12 @@ abstract class Validate
     protected $negate = false;
 
     /**
+     * Object types this validation is allowed on
+     * @var array
+     */
+    protected $allowedTypes = array();
+
+    /**
      * Init the object
      * 
      * @param mixed $value Value coming from the Variable
@@ -87,6 +93,42 @@ abstract class Validate
         } else {
             return ($default !== null) ? $default : null;
         }
+    }
+
+    /**
+     * Set the types allowed for the validation
+     * 
+     * @param mixed $types Either a string or array of object types
+     */
+    public function setAllowedTypes($types)
+    {
+        $types = (!is_array($types)) ? array($types) : $types;
+        foreach ($types as $type) {
+            $this->allowedTypes[] = strtolower($type);
+        }
+    }
+
+    /**
+     * Get the full list of allowed object types
+     * 
+     * @return array Allowed types list
+     */
+    public function getAllowedTypes()
+    {
+        return $this->allowedTypes;
+    }
+
+    /**
+     * See if a type is allowed for this object
+     * 
+     * @param string $type Object type
+     * 
+     * @return boolean Allowed/not allowed
+     */
+    public function isAllowedType($type)
+    {
+        $type = str_replace('Pv\\','',$type);
+        return (in_array(strtolower($type), $this->allowedTypes)) ? true : false;
     }
 
     /**

@@ -64,6 +64,7 @@ abstract class Variable
                 }
                 $validation  = "\Pv\Validate\\".ucwords(strtolower($t));
                 $valid = new $validation($this->value);
+
                 if (!empty($addlParams)) {
                     $valid->setParams($addlParams);
                 }
@@ -72,14 +73,29 @@ abstract class Variable
                 }    
             }
 
-            // get the current validation and append
-            $currentValidation = $this->getValidation();
-            $newValidation = array_merge(
-                $currentValidation, 
-                array($index => $valid)
-            );
-            $this->validate = $newValidation;
+            if ($valid->isAllowedType(get_class($this)) == true) {
+                $this->appendValidation($index, $valid);
+            }
         }
+    }
+
+    /**
+     * Append the validation to the validation set
+     * 
+     * @param string $index Index (name) for the validation
+     * @param mixed $valid A Validation object (extends \Pv\Validate)
+     * 
+     * @return null
+     */
+    public function appendValidation($index, $valid)
+    {
+        // get the current validation and append
+        $currentValidation = $this->getValidation();
+        $newValidation = array_merge(
+            $currentValidation, 
+            array($index => $valid)
+        );
+        $this->validate = $newValidation;
     }
 
     /**
@@ -252,9 +268,21 @@ abstract class Variable
             // see if we have the conversion method
             $method = 'to'.ucwords(strtolower($type));
             if (method_exists($this, $method)) {
+
                 // try to make an object
                 $objectType = '\Pv\P'.$type;
                 $obj = new $objectType($this->$method());
+
+                // filter through the validations on the object and be sure 
+                // they can stick around
+                foreach ($this->getValidation() as $index => $valid) {
+
+                    // can it go on the new object?
+                    if ($valid->isAllowedType('P'.$type) == true){
+                        $obj->appendValidation($index, $valid);
+                    }
+                }
+
                 return $obj;
             } else {
                 throw new \Pv\ConversionException(
