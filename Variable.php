@@ -73,7 +73,7 @@ abstract class Variable
                 }    
             }
 
-            if ($valid->isAllowedType(get_class($this)) == true) {
+            if (strtolower($t) == 'none' || $valid->isAllowedType(get_class($this)) == true) {
                 $this->appendValidation($index, $valid);
             }
         }
