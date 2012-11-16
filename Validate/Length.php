@@ -4,6 +4,14 @@ namespace Pv\Validate;
 
 class Length extends \Pv\Validate\Validate
 {
+    public function __construct($value)
+    {
+        $this->setAllowedTypes(
+            array('PString', 'PArray')
+        );
+        parent::__construct($value);
+    }
+
     public function run()
     {
         $minLength = $this->getParam(0);

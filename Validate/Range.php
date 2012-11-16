@@ -4,6 +4,14 @@ namespace Pv\Validate;
 
 class Range extends \Pv\Validate\Validate
 {
+    public function __construct($value)
+    {
+        $this->setAllowedTypes(
+            array('PString')
+        );
+        parent::__construct($value);
+    }
+
     public function run()
     {
         $start = $this->getParam(0);

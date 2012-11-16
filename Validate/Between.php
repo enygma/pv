@@ -4,6 +4,14 @@ namespace Pv\Validate;
 
 class Between extends \Pv\Validate\Validate
 {
+    public function __construct()
+    {
+        $this->setAllowedTypes(
+            'PDate'
+        );
+        parent::__construct();
+    }
+
     public function run()
     {
         $start = null;

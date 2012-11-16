@@ -4,6 +4,14 @@ namespace Pv\Validate;
 
 class Contains extends \Pv\Validate\Validate
 {
+    public function __construct($value)
+    {
+        $this->setAllowedTypes(
+            array('PString', 'PArray')
+        );
+        parent::__construct($value);
+    }
+    
     public function run()
     {
         $find = $this->getParam(0);
