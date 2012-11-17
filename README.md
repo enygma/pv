@@ -1,4 +1,22 @@
-pv: simple PHP validation
+pv: php objects
+
+The pv project is an experiment in trying to make strongly-typed objects for PHP. There are
+currently five types of objects in the set, some which mimic PHP's current variables:
+
+- PArray
+- PBoolean
+- PDate
+- PObject
+- PString
+
+Each of these methods allow you to specify validation methods to check the contents of
+the variable. These can be run by calling the `validate` method at any time. They can also
+be added or removed as needed.
+
+The variables also allow for conversion between the types (a more structured method than
+PHP's loose typing). When the types are converted, a "to" method is executed when the
+`convert` method is called.
+
 
 [![Build Status](https://secure.travis-ci.org/enygma/pv.png?branch=master)](http://travis-ci.org/enygma/pv)
 
