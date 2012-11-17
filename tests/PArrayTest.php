@@ -2,15 +2,6 @@
 
 class PArrayTest extends PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-
-    }
-    public function tearDown()
-    {
-
-    }
-
     /**
      * Test that an exception is thrown when value is non-array
      * @expectedException \Pv\ValidationException

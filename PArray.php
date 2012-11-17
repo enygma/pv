@@ -24,6 +24,17 @@ class PArray extends Variable implements \ArrayAccess, \Iterator, \Countable
         parent::__construct($value,$type);
     }
 
+    /**
+     * Convert the value to a string
+     *     (Implode the array values with commas)
+     * 
+     * @return string String value of the boolean
+     */
+    public function toString()
+    {
+        return implode(',', $this->value);
+    }
+
     // ---- Array methods
     public function offsetExists($offset)
     {
