@@ -144,6 +144,18 @@ $str->single('length[1,3]');
 
 In this case, the validation fails so a `ValidationException` will be immediately thrown.
 
+Additionally, since the `single` call returns the current object so you can chain `single`
+calls:
+
+```php
+<?php
+$str = new Pv\PString('me@me.com');
+$str->single('length[1,10]')->single('email');
+?>
+```
+
+The above example would pass validation and not throw an exception.
+
 Validation with Closures:
 =========================
 
