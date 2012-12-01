@@ -147,6 +147,8 @@ abstract class Variable
     {
         $validate = $this->buildValidationObject($validationString, $this->value);
         $this->execValidatorObject($validate, null, false);
+
+        return $this;
     }
 
     /**
@@ -196,7 +198,9 @@ abstract class Variable
             }
             throw new ValidationException($msg);
         } else {
-            $this->validate[$index]->pass();
+            if ($return == true) {
+                $this->validate[$index]->pass();
+            }
         }
     }
 
