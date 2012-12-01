@@ -44,6 +44,18 @@ class ValidationTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('bar', $valid->getParam('foo', 'bar'));
     }
+
+    /**
+     * Test that a "single" call returns the current object (fluent interface)
+     * 
+     * @return null
+     */
+    public function testSingleValidationReturnsObject()
+    {
+        $valid = new \Pv\PString('me@me.com');
+        $return = $valid->single('length[1,10]')->single('email');
+        $this->assertEquals($return, $valid);
+    }
 }
 
 ?>
