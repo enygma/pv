@@ -129,6 +129,21 @@ var_export($s->validate('validate1'));
 ?>
 ```
 
+Executing a Single Validator:
+=========================
+
+If you have validation that you want to execute but don't want to add it to the set, you
+can execute a single validation with the `single` method:
+
+```php
+<?php
+$str = new Pv\PString('testing');
+$str->single('length[1,3]');
+?>
+```
+
+In this case, the validation fails so a `ValidationException` will be immediately thrown.
+
 Validation with Closures:
 =========================
 

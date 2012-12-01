@@ -136,9 +136,17 @@ abstract class Variable
         return $pass;
     }
 
-    public function single($validation)
+    /**
+     * Execute a single validation without adding it to the object
+     * 
+     * @param string $validationString Validation definition
+     * 
+     * @return null
+     */
+    public function single($validationString)
     {
-
+        $validate = $this->buildValidationObject($validationString, $this->value);
+        $this->execValidatorObject($validate, null, false);
     }
 
     /**
@@ -165,10 +173,11 @@ abstract class Variable
      * 
      * @param \Pv\Validate\Validate $validate Validation object
      * @param mixed $index Index of the validator
+     * @param boolean $return Return the validation back to the object
      * 
      * @return null
      */
-    private function execValidatorObject($validate, $index)
+    private function execValidatorObject($validate, $index, $return=true)
     {
         $ret   = $validate->run();
         $check = false;
@@ -178,7 +187,9 @@ abstract class Variable
 
         if ($ret == $check) {
             $pass = false;
-            $this->validate[$index]->fail();
+            if ($return == true) {
+                $this->validate[$index]->fail();
+            }
             $msg = 'Failure on validation '.get_class($validate);
             if ($validate->isNegated()) {
                 $msg .= ' (negated)';
