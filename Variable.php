@@ -43,40 +43,56 @@ abstract class Variable
             $type = array($type);
         }
         foreach ($type as $index => $t) {
-            $negate = false;
 
             if ($t instanceof \Closure) {
                 $valid = $t($this->value);
 
             } else {
-                // see if we have a "not:" to negate
-                if (strpos($t, 'not:') !== false) {
-                    $t = str_replace('not:', '', $t);
-                    $negate = true;
-                }
-
-                // see if we have parameters to pass
-                $addlParams = array();
-                if (strpos($t, '[') !== false) {
-                    preg_match('#(.+?)\[(.+?)\]#', $t, $params);
-                    $t = $params[1];
-                    $addlParams = explode(',', $params[2]);
-                }
-                $validation  = "\Pv\Validate\\".ucwords(strtolower($t));
-                $valid = new $validation($this->value);
-
-                if (!empty($addlParams)) {
-                    $valid->setParams($addlParams);
-                }
-                if ($negate == true) {
-                    $valid->negate();
-                }    
+                $valid = $this->buildValidationObject($t, $this->value);
             }
 
             if (strtolower($t) == 'none' || $valid->isAllowedType(get_class($this)) == true) {
                 $this->appendValidation($index, $valid);
             }
         }
+    }
+
+    /**
+     * Create the validation object based on the string
+     * 
+     * @param string $validationString Validation string definition
+     * @param mixed  $value            Value to assign to validator
+     * 
+     * @return \Pv\Validate $valid Validation object
+     */
+    public function buildValidationObject($validationString, $value)
+    {
+        $negate = false;
+
+        // see if we have a "not:" to negate
+        if (strpos($validationString, 'not:') !== false) {
+            $validationString = str_replace('not:', '', $validationString);
+            $negate = true;
+        }
+
+        // see if we have parameters to pass
+        $addlParams = array();
+        if (strpos($validationString, '[') !== false) {
+            preg_match('#(.+?)\[(.+?)\]#', $validationString, $params);
+            $validationString = $params[1];
+            $addlParams = explode(',', $params[2]);
+        }
+        $validation  = "\Pv\Validate\\".ucwords(strtolower($validationString));
+        $valid = new $validation($value);
+
+        if (!empty($addlParams)) {
+            $valid->setParams($addlParams);
+        }
+        if ($negate == true) {
+            $valid->negate();
+        }
+
+        return $valid;
     }
 
     /**
@@ -118,6 +134,11 @@ abstract class Variable
             }
         }
         return $pass;
+    }
+
+    public function single($validation)
+    {
+
     }
 
     /**
