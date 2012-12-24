@@ -74,6 +74,13 @@ class PBinaryElement extends Variable
         }
     }
 
+    /**
+     * Find the element with the matching value
+     * 
+     * @param mixed   $find Value to find
+     * @param integer $lvl  Tracking for nesting level
+     * @return \Pv\PBinaryElement
+     */
     public function get($find, $lvl)
     {
         if ($find == $lvl) {
